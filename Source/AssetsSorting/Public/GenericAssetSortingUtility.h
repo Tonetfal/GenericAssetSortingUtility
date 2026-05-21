@@ -18,12 +18,14 @@ class ASSETSSORTING_API UGenericAssetSortingUtility
 public:
 	UFUNCTION(CallInEditor, Category="Sorting")
 	void PopulateDataTable(
-		UPARAM(meta=(RequiredAssetDataTags="RowStructure=/Script/MESS.MESS_TagToGenericData")) UDataTable* DataTable,
+		UPARAM(meta=(RequiredAssetDataTags="RowStructure=/Script/AssetsSorting.GenericSortableAssetDataTableEntry"))
+		UDataTable* DataTable,
 		EArraySortOrder SortOrder = EArraySortOrder::Ascending);
 
 	UFUNCTION(CallInEditor, Category="Sorting")
 	void SortOutAssets(
-		UPARAM(meta=(RequiredAssetDataTags="RowStructure=/Script/MESS.MESS_TagToGenericData")) UDataTable* DataTable);
+		UPARAM(meta=(RequiredAssetDataTags="RowStructure=/Script/AssetsSorting.GenericSortableAssetDataTableEntry"))
+		UDataTable* DataTable);
 
 protected:
 	UFUNCTION(BlueprintNativeEvent, Category="Sorting")
