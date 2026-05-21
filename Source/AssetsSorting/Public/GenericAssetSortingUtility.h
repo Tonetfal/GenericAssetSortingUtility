@@ -38,7 +38,7 @@ protected:
 	void SetAssetSortingPriority(UObject* InAsset, int32 InPriority) const;
 };
 
-UCLASS(Config="Editor", DefaultConfig)
+UCLASS(Config="GenericAssetSorting", DefaultConfig)
 class UGenericAssetSortingSettings
 	: public UDeveloperSettings
 {

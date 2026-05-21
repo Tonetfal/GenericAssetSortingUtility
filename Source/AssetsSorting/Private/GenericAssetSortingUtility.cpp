@@ -208,7 +208,17 @@ void UGenericAssetSortingUtility::SetAssetSortingPriority_Implementation(UObject
 
 UDataTable* UGenericAssetSortingSettings::GetDefaultDataTable()
 {
-	return GetDefault<ThisClass>()->DefaultDataTable.LoadSynchronous();
+	const auto* This = GetDefault<ThisClass>();
+
+	// This is bad, but it's a testing DT either way
+	if (This->DefaultDataTable.IsNull())
+	{
+		FSoftObjectPath Path(TEXT("/AssetsSorting/DT_Sorting.DT_Sorting"));
+		TSoftObjectPtr<UDataTable> SoftPtr(Path);
+		return SoftPtr.LoadSynchronous();
+	}
+
+	return This->DefaultDataTable.LoadSynchronous();
 }
 
 void UGenericAssetSortingUtilities::SortGenericAssetsArray(TArray<UObject*>& InOutSortableAssets,
