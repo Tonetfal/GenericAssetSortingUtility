@@ -54,9 +54,7 @@ Note that having an isolated DT's for a set of assets would make the process qui
 
 <img src="Docs/PopulateDataTableUI.png" alt="Docs/PopulateDataTableUI.png">
 
-After applying, open up the data table (if it was open, close it, as the engine doesn't flush the DT contents when adding/removing rows outside the UI). 
-
-You will see the elements sorted the way they currently are. You can move them around to order them as you wish.
+After applying, open up the data table. You will see the elements sorted the way they currently are. You can move them around to order them as you wish.
 
 You can either move the elements manually, or export the DT to a CSV, edit it elsewhere, and import it back.
 

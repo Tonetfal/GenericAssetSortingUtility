@@ -2,6 +2,7 @@
 
 #include "GenericAssetSortingUtility.h"
 
+#include "DataTableEditorUtils.h"
 #include "EditorAssetLibrary.h"
 #include "EditorUtilityLibrary.h"
 #include "Framework/Notifications/NotificationManager.h"
@@ -77,19 +78,37 @@ void UGenericAssetSortingUtility::PopulateDataTable(UDataTable* DataTable, EArra
 		return CompareSpecificAssets(&Lhs, &Rhs, SortOrder);
 	});
 
-	// Clear out the map
-	const TArray<FName> RowNames = DataTable->GetRowNames();
-	for (const FName& RowName : RowNames)
 	{
-		DataTable->RemoveRow(RowName);
+		const FScopedTransaction Transaction(INVTEXT("Clear data table"));
+
+		FDataTableEditorUtils::BroadcastPreChange(DataTable, FDataTableEditorUtils::EDataTableChangeInfo::RowList);
+		DataTable->Modify();
+
+		// Clear out the map
+		const TArray<FName> RowNames = DataTable->GetRowNames();
+		for (const FName& RowName : RowNames)
+		{
+			DataTable->RemoveRow(RowName);
+		}
+
+		FDataTableEditorUtils::BroadcastPostChange(DataTable, FDataTableEditorUtils::EDataTableChangeInfo::RowList);
 	}
 
-	// Add all assets to the data table
-	for (UObject* Asset : AssetsToSort)
 	{
-		const FName RowName = FName(Asset->GetName());
-		const FGenericSortableAssetDataTableEntry Entry(Asset);
-		DataTable->AddRow(RowName, Entry);
+		const FScopedTransaction Transaction(INVTEXT("Populate data table"));
+
+		FDataTableEditorUtils::BroadcastPreChange(DataTable, FDataTableEditorUtils::EDataTableChangeInfo::RowList);
+		DataTable->Modify();
+
+		// Add all assets to the data table
+		for (UObject* Asset : AssetsToSort)
+		{
+			const FName RowName = FName(Asset->GetName());
+			const FGenericSortableAssetDataTableEntry Entry(Asset);
+			DataTable->AddRow(RowName, Entry);
+		}
+
+		FDataTableEditorUtils::BroadcastPostChange(DataTable, FDataTableEditorUtils::EDataTableChangeInfo::RowList);
 	}
 
 	// Save the data table
