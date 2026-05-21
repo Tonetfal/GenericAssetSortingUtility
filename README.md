@@ -8,7 +8,7 @@ Clone the repository in your project's Plugin directory.
 
 ## Functionality
 
-When dealing with PDA and loading, their order isn't consistent. If you're dealing with some UI like a set of items in the shop or set of levels the player selects from, you might want to be able to dictate their order, so that the most useful items are displayed at the beginning.
+When dealing with PDA and loading, their order isn't consistent. If you're dealing with some UI like a set level selection, you might want to put the starting levels at the beginning, and the final levels at the end. That's where the plugin helps out to deal with that problem.
 
 To support generic sorting, your PDA must have an integer like DisplayOrder or DisplayPriority depending on your ordering preferences (ascending or descending respectively), implement IGenericSortableAsset interface and its functions.
 
@@ -38,7 +38,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	int32 DisplayOrder = 0;
 
-  // Other relevant things to a shop item...
+	// Other relevant things to a level...
 };
 ```
 
