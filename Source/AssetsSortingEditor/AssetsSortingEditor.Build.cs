@@ -2,9 +2,9 @@
 
 using UnrealBuildTool;
 
-public class AssetsSorting : ModuleRules
+public class AssetsSortingEditor : ModuleRules
 {
-	public AssetsSorting(ReadOnlyTargetRules Target) : base(Target)
+	public AssetsSortingEditor(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
@@ -12,25 +12,19 @@ public class AssetsSorting : ModuleRules
 		{
 			"Core",
 			"CoreUObject",
-			"Engine"
+			"Engine",
 		});
 
 		PrivateDependencyModuleNames.AddRange(new[]
 		{
 			"AssetRegistry",
+			"AssetsSorting",
+			"Blutility",
 			"DeveloperSettings",
+			"EditorScriptingUtilities",
+			"Slate",
+			"SlateCore",
+			"UnrealEd",
 		});
-
-		if (Target.bBuildEditor)
-		{
-			PrivateDependencyModuleNames.AddRange(new[]
-			{
-				"Blutility",
-				"EditorScriptingUtilities",
-				"Slate",
-				"SlateCore",
-				"UnrealEd",
-			});
-		}
 	}
 }

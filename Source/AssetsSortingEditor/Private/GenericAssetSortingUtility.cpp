@@ -5,8 +5,8 @@
 #include "DataTableEditorUtils.h"
 #include "EditorAssetLibrary.h"
 #include "EditorUtilityLibrary.h"
-#include "Framework/Notifications/NotificationManager.h"
 #include "GenericSortableAsset.h"
+#include "Framework/Notifications/NotificationManager.h"
 #include "Logging/StructuredLog.h"
 #include "Subsystems/EditorAssetSubsystem.h"
 #include "Widgets/Notifications/SNotificationList.h"
@@ -37,7 +37,6 @@ namespace
 
 void UGenericAssetSortingUtility::PopulateDataTable(UDataTable* DataTable, EArraySortOrder SortOrder)
 {
-#if WITH_EDITOR
 	if (!IsValid(DataTable))
 	{
 		DataTable = UGenericAssetSortingSettings::GetDefaultDataTable();
@@ -117,12 +116,10 @@ void UGenericAssetSortingUtility::PopulateDataTable(UDataTable* DataTable, EArra
 	EditorAssetSubsystem->SaveAsset(DataTable->GetName(), false);
 
 	UE_LOGFMT(LogGenericAssetSorting, Log, "Sorted {0} assets", AssetsToSort.Num());
-#endif
 }
 
 void UGenericAssetSortingUtility::SortOutAssets(UDataTable* DataTable)
 {
-#if WITH_EDITOR
 	if (!IsValid(DataTable))
 	{
 		DataTable = UGenericAssetSortingSettings::GetDefaultDataTable();
@@ -186,7 +183,6 @@ void UGenericAssetSortingUtility::SortOutAssets(UDataTable* DataTable)
 	}
 
 	UE_LOGFMT(LogGenericAssetSorting, Log, "Assigned {0} ordering indices", SortedAssets.Num());
-#endif
 }
 
 bool UGenericAssetSortingUtility::SupportsSpecificAssetType_Implementation(const UObject* InAsset) const
@@ -238,28 +234,4 @@ UDataTable* UGenericAssetSortingSettings::GetDefaultDataTable()
 	}
 
 	return This->DefaultDataTable.LoadSynchronous();
-}
-
-void UGenericAssetSortingUtilities::SortGenericAssetsArray(TArray<UObject*>& InOutSortableAssets,
-	EArraySortOrder SortOrder)
-{
-	// Remove all unsupported assets
-	InOutSortableAssets.RemoveAll([](const UObject* It)
-	{
-		return !IsValid(It) || !It->Implements<UGenericSortableAsset>();
-	});
-
-	// Define the sorting rules
-	const auto SortingCallback = [SortOrder](int32 Lhs, int32 Rhs)
-	{
-		return SortOrder == EArraySortOrder::Ascending ? Lhs < Rhs : Lhs > Rhs;
-	};
-
-	// Sort the assets
-	InOutSortableAssets.Sort([SortingCallback](const UObject& Lhs, const UObject& Rhs)
-	{
-		return SortingCallback(
-			IGenericSortableAsset::Execute_GetSortingPriority(&Lhs),
-			IGenericSortableAsset::Execute_GetSortingPriority(&Rhs));
-	});
 }

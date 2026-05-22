@@ -7,7 +7,7 @@
 #include "GenericSortableAsset.generated.h"
 
 USTRUCT(BlueprintType)
-struct FGenericSortableAssetDataTableEntry
+struct ASSETSSORTING_API FGenericSortableAssetDataTableEntry
 	: public FTableRowBase
 {
 	GENERATED_BODY()
@@ -25,7 +25,7 @@ public:
 };
 
 UINTERFACE()
-class UGenericSortableAsset
+class ASSETSSORTING_API UGenericSortableAsset
 	: public UInterface
 {
 	GENERATED_BODY()

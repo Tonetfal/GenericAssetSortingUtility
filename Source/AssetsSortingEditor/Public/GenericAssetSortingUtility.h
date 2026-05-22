@@ -10,7 +10,7 @@
 DECLARE_LOG_CATEGORY_EXTERN(LogGenericAssetSorting, All, All);
 
 UCLASS(Abstract)
-class ASSETSSORTING_API UGenericAssetSortingUtility
+class ASSETSSORTINGEDITOR_API UGenericAssetSortingUtility
 	: public UAssetActionUtility
 {
 	GENERATED_BODY()
@@ -39,7 +39,7 @@ protected:
 };
 
 UCLASS(Config="GenericAssetSorting", DefaultConfig)
-class UGenericAssetSortingSettings
+class ASSETSSORTINGEDITOR_API UGenericAssetSortingSettings
 	: public UDeveloperSettings
 {
 	GENERATED_BODY()
@@ -51,16 +51,4 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category="Asset Sorting",
 		meta=(RequiredAssetDataTags="RowStructure=/Script/AssetsSorting.GenericSortableAssetDataTableEntry"))
 	TSoftObjectPtr<UDataTable> DefaultDataTable = nullptr;
-};
-
-UCLASS()
-class UGenericAssetSortingUtilities
-	: public UBlueprintFunctionLibrary
-{
-	GENERATED_BODY()
-
-public:
-	UFUNCTION(BlueprintCallable, Category="Sorting")
-	static void SortGenericAssetsArray(UPARAM(Ref) TArray<UObject*>& InOutSortableAssets,
-		EArraySortOrder SortOrder = EArraySortOrder::Ascending);
 };
